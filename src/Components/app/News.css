@@ -1,0 +1,28 @@
+.button_navigation {
+   text-decoration: none;
+   color: white;
+   background: #dc3545;
+   padding: 7px 10px;
+   border-radius: 4px;
+   font-size: 19px;
+   border: none;
+}
+
+.button_navigation:hover {
+   background: rgb(220 53 69 / 85%);
+}
+
+.button_navigation:focus {
+   outline: 3px solid rgb(220 53 69 / 50%);
+
+}
+
+.navigation_buttons {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 20px;
+}
+
+.button_navigation:disabled {
+   background: #c1bfbf !important;
+}
