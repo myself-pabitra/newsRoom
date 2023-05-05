@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import "./app/News.css";
 import NewsItem from './NewsItem'
 import Spinner from './Spinner'
-import "./app/News.css";
 import PropTypes from 'prop-types'
 
 export class News extends Component {
@@ -16,9 +16,8 @@ export class News extends Component {
         pageSize: PropTypes.number,
         category: PropTypes.string,
     }
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
         this.state = {
             articles: [],
             loading: false,
@@ -27,16 +26,19 @@ export class News extends Component {
 
     }
     async updateNews() {
+
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=22c5698b65814a788ff82f768f2f7a66&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+
         this.setState({ loading: true })
         let data = await fetch(url);
-        let pasrsedData = await data.json();
-
+        let parsedData  = await data.json();
+        console.log(parsedData); 
         this.setState({
-            articles: pasrsedData.articles,
-            totalResults: pasrsedData.totalResults,
+            articles: parsedData.articles,
+            totalResults: parsedData.totalResults,
             loading: false
         })
+        
     }
     async componentDidMount() {
         this.updateNews()
@@ -61,18 +63,14 @@ export class News extends Component {
                     <div className="row">
                         {!this.state.loading && this.state.articles.map((element) => {
                             return <div className="col-md-3 my-3" key={element.url}>
-                                <NewsItem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 75) : ""} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy7pfxHYqsggRqsmfpztD-IvhBLvzSjmQnjQ&usqp=CAU" : element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+                                <NewsItem title={element.title ? element.title: ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage ? element.urlToImage :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy7pfxHYqsggRqsmfpztD-IvhBLvzSjmQnjQ&usqp=CAU"} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
                             </div>
                         })}
                     </div>
                 </div>
-                <div className="container navigation_buttons" style={this.state.loading ? { display: 'none' } : {
-                    displ
-                        : 'block'
-                }}>
+                <div className="container navigation_buttons" style={this.state.loading ? { display: 'none' } : { display: 'flex' }}>
                     <button disabled={this.state.page <= 1} className="button_navigation" type='button' onClick={this.handlePreviosClick} >&#8592; Previous</button>
-                    <button className="button_navigation" type='button' onClick={this.handleNextClick} style={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize) ? { display: 'none' } : { display: 'block' }}>Next &rarr;</button>
-
+                    <button className="button_navigation" type='button' onClick={this.handleNextClick} style={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize) ? { display: 'none' } : { display: 'inline' }}>Next &rarr;</button>
                 </div>
             </div>
         )

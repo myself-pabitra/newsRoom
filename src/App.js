@@ -22,14 +22,6 @@ export default class App extends Component {
             <Route exact path='/science' element={<News key="science" pageSize={this.pageSize} county="in" category="science" />} />
             <Route exact path='/sports' element={<News key="sports" pageSize={this.pageSize} county="in" category="sports" />} />
             <Route exact path='/technology' element={<News key="technology" pageSize={this.pageSize} county="in" category="technology" />} />
-            key = ""
-            {/* business
-          entertainment
-          general
-          health
-          science
-          sports
-          technology */}
           </Routes>
         </Router>
       </div>
